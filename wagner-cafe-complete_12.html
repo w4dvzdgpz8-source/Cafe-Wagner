@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café Wagner – Leipzig – Café & Weinbar</title>
+<meta name="description" content="Café und Weinbar Richard-Wagner-Platz 1. D-04109 Leipzig, Inhaberin Celina Kutylo, für Weinkenner und Kaffeeliebhaber">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Crimson+Pro:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #f5f0e8;
+  --cream-dark: #e0d5c0;
+  --gold: #b8962e;
+  --gold-light: #d4af4a;
+  --gold-dark: #8a6f1e;
+  --ink: #1a1610;
+  --wine: #6b1a2a;
+  --text: #2e2820;
+  --muted: #6b5f4a;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Crimson Pro', Georgia, serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 200;
+  padding: 1rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, padding 0.4s, border 0.4s;
+}
+nav.scrolled {
+  background: rgba(22,18,12,0.97);
+  padding: 0.6rem 3rem;
+  border-bottom: 1px solid rgba(184,150,46,0.25);
+}
+.nav-logo-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1; transition: all 0.4s; }
+.nav-logo-sig { font-family: 'Great Vibes', cursive; font-size: 2.4rem; color: #e03030; line-height: 0.9; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.5)); transition: font-size 0.4s; text-decoration: none; }
+.nav-logo-sub { font-family: 'Cormorant Garamond', serif; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-top: 3px; text-decoration: none; }
+nav.scrolled .nav-logo-sig { font-size: 1.9rem; }
+a.nav-logo { text-decoration: none; }
+a.nav-logo:visited, a.nav-logo:hover, a.nav-logo:focus { text-decoration: none; outline: none; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-weight: 500;
+  color: rgba(255,255,255,0.85); text-decoration: none;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  position: relative; transition: color 0.3s;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--gold); transition: width 0.3s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+nav.on-page { background: rgba(245,240,232,0.98); border-bottom: 1px solid var(--cream-dark); }
+nav.on-page .nav-links a { color: var(--ink); }
+nav.on-page .nav-links a:hover, nav.on-page .nav-links a.active { color: var(--gold-dark); }
+nav.on-page .nav-links a::after { background: var(--gold-dark); }
+nav.on-page .nav-logo-sig { text-shadow: none; }
+nav.on-page .nav-logo-sub { color: var(--muted); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative; height: 100vh; min-height: 600px;
+  background: var(--ink); display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.hero-slide {
+  position: absolute; inset: 0; opacity: 0;
+  transition: opacity 2s ease; background-size: cover; background-position: center;
+}
+.hero-slide.active { opacity: 1; }
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to bottom, rgba(10,8,4,0.5) 0%, rgba(10,8,4,0.25) 45%, rgba(10,8,4,0.72) 100%);
+}
+.hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; }
+.hero-ornament { color: var(--gold); font-size: 1.4rem; letter-spacing: 0.35em; display: block; margin-bottom: 1.2rem; opacity: 0.7; }
+.hero-logo-text { margin-bottom: 1.2rem; }
+.hero-logo-sig { font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 8vw, 6rem); color: #e03030; line-height: 1.1; filter: drop-shadow(0 2px 20px rgba(0,0,0,0.5)); display: block; padding-bottom: 0.3rem; }
+.hero-logo-small { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(255,255,255,0.6); display: block; margin-top: 0.2rem; }
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 2.2vw, 1.5rem);
+  font-weight: 300; color: var(--gold-light); letter-spacing: 0.35em; text-transform: uppercase;
+  margin-top: 0.6rem;
+}
+.hero-address { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: rgba(255,255,255,0.65); letter-spacing: 0.15em; margin-top: 1.2rem; }
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: rgba(255,255,255,0.45); font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+  animation: fadeInUp 2s 1.5s both;
+}
+.scroll-line { width: 1px; height: 38px; background: linear-gradient(to bottom, rgba(184,150,46,0.8), transparent); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+@keyframes fadeInUp { from{opacity:0;transform:translateX(-50%) translateY(20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+
+/* ─── PAGE SECTIONS ─── */
+.page-section { display: none; }
+.page-section.active { display: block; }
+
+/* ─── SECTION HEADER ─── */
+.section-header { text-align: center; padding: 5.5rem 2rem 3rem; background: var(--cream); }
+.section-tag { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 0.8rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 600; color: var(--ink); }
+.section-desc { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 300; font-style: italic; color: var(--muted); max-width: 560px; margin: 1rem auto 0; line-height: 1.7; }
+
+/* ─── DIVIDER ─── */
+.divider { display: flex; align-items: center; gap: 1.5rem; margin: 1.5rem auto; max-width: 360px; }
+.divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--gold-dark)); }
+.divider-line.r { background: linear-gradient(to left, transparent, var(--gold-dark)); }
+.divider-diamond { width: 7px; height: 7px; border: 1px solid var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+/* ─── EVENTS ─── */
+.events-body { background: var(--cream); padding: 0 2rem 6rem; }
+.events-list { max-width: 860px; margin: 0 auto; }
+.event-card {
+  display: grid; grid-template-columns: 110px 1fr;
+  border-top: 1px solid var(--cream-dark); padding: 2.2rem 0;
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  position: relative;
+}
+.event-card.visible { opacity: 1; transform: translateY(0); }
+.event-card:last-child { border-bottom: 1px solid var(--cream-dark); }
+.event-card::before { content: ''; position: absolute; left: -1.5rem; top: 0; bottom: 0; width: 2px; background: transparent; transition: background 0.35s; }
+.event-card:hover::before { background: var(--gold); }
+.event-date { padding-right: 2rem; border-right: 1px solid var(--cream-dark); text-align: right; padding-top: 0.2rem; }
+.event-day { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700; color: var(--gold-dark); line-height: 1; }
+.event-month { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.15rem; }
+.event-year { font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; color: #b0a085; display: block; }
+.event-body { padding-left: 2.2rem; }
+.event-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; color: var(--ink); line-height: 1.3; transition: color 0.3s; }
+.event-card:hover .event-title { color: var(--wine); }
+.event-desc { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; font-style: italic; color: var(--muted); margin-top: 0.4rem; line-height: 1.6; }
+.event-mehr {
+  display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.9rem;
+  font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--gold-dark); text-decoration: none;
+  border-bottom: 1px solid var(--gold-dark); padding-bottom: 1px; transition: color 0.3s, border-color 0.3s;
+}
+.event-mehr:hover { color: var(--wine); border-color: var(--wine); }
+.event-mehr::after { content: '→'; transition: transform 0.3s; }
+.event-mehr:hover::after { transform: translateX(4px); }
+
+/* ─── SPEISEKARTE ─── */
+.speise-body { background: var(--cream); padding: 0 2rem 5rem; }
+.speise-nav { max-width: 1000px; margin: 0 auto 3rem; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.speise-tab {
+  font-family: 'Cormorant Garamond', serif; font-size: 0.78rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); background: none;
+  border: 1px solid var(--cream-dark); padding: 0.4rem 0.9rem; cursor: pointer;
+  transition: all 0.3s; border-radius: 0;
+}
+.speise-tab:hover, .speise-tab.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+.speise-panels { max-width: 900px; margin: 0 auto; }
+.speise-panel { display: none; }
+.speise-panel.active { display: block; }
+.speise-category-title {
+  font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 600;
+  color: var(--ink); border-bottom: 1px solid var(--cream-dark); padding-bottom: 0.8rem; margin-bottom: 1.5rem;
+}
+.speise-item {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.75rem 0; border-bottom: 1px dotted var(--cream-dark);
+  opacity: 0; transform: translateX(-12px); transition: opacity 0.5s, transform 0.5s;
+}
+.speise-item.visible { opacity: 1; transform: translateX(0); }
+.speise-item-left { flex: 1; }
+.speise-item-name { font-family: 'Crimson Pro', serif; font-size: 1.05rem; font-weight: 500; color: var(--text); }
+.speise-item-desc { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-style: italic; color: var(--muted); margin-top: 0.15rem; }
+.speise-item-price { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--gold-dark); white-space: nowrap; margin-left: 1.5rem; }
+.speise-note { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; color: var(--muted); margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--cream-dark); }
+
+/* ─── NEWS ─── */
+.news-body { background: var(--cream); padding: 0 2rem 5rem; }
+.news-list { max-width: 820px; margin: 0 auto; }
+.news-card {
+  background: #fff; border: 1px solid var(--cream-dark); padding: 2.5rem;
+  margin-bottom: 2rem;
+  opacity: 0; transform: translateY(24px); transition: opacity 0.6s, transform 0.6s;
+}
+.news-card.visible { opacity: 1; transform: translateY(0); }
+.news-date { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 0.6rem; }
+.news-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; color: var(--ink); margin-bottom: 1.2rem; line-height: 1.3; }
+.news-text { font-family: 'Cormorant Garamond', serif; font-size: 1.08rem; font-weight: 300; color: var(--text); line-height: 1.8; }
+.news-text p + p { margin-top: 1rem; }
+.news-card img { max-width: 100%; margin-top: 1.5rem; border: 1px solid var(--cream-dark); }
+
+/* ─── KONTAKT ─── */
+.kontakt-body { background: var(--cream); padding: 0 2rem 5rem; }
+.kontakt-grid { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+.kontakt-info { background: #fff; border: 1px solid var(--cream-dark); padding: 2.5rem; }
+.kontakt-info h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; color: var(--ink); margin-bottom: 1.5rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--cream-dark); }
+.kontakt-row { display: flex; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px dotted var(--cream-dark); align-items: flex-start; }
+.kontakt-label { font-family: 'Cormorant Garamond', serif; font-size: 0.78rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-dark); min-width: 80px; padding-top: 0.15rem; }
+.kontakt-val { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text); line-height: 1.6; }
+.kontakt-val a { color: var(--wine); text-decoration: none; }
+.kontakt-val a:hover { text-decoration: underline; }
+.kontakt-map { border: 1px solid var(--cream-dark); overflow: hidden; }
+.kontakt-map iframe { width: 100%; height: 100%; min-height: 400px; display: block; border: none; }
+
+/* ─── PARALLAX BANNER ─── */
+.parallax-banner { position: relative; height: 340px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.parallax-bg { position: absolute; inset: -60px; background: url('http://www.wagner-cafe.de/assets/images/slides_head/5.jpg') center/cover no-repeat; will-change: transform; }
+.parallax-overlay { position: absolute; inset: 0; background: rgba(12,9,5,0.62); }
+.parallax-content { position: relative; z-index: 1; text-align: center; padding: 2rem; }
+.parallax-quote { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 2.8vw, 2.2rem); font-weight: 400; font-style: italic; color: #fff; max-width: 660px; line-height: 1.55; }
+.parallax-quote em { color: var(--gold-light); font-style: normal; }
+
+/* ─── FOOTER ─── */
+footer { background: var(--ink); color: rgba(255,255,255,0.65); padding: 4rem 2rem 2.5rem; text-align: center; border-top: 1px solid var(--gold-dark); }
+.footer-logo-sig { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: #e03030; line-height: 1; display: block; margin-bottom: 0.2rem; opacity: 0.9; }
+.footer-logo-sub { font-family: 'Cormorant Garamond', serif; font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.4); display: block; margin-bottom: 0.4rem; }
+.footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 2.5rem; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 2rem; max-width: 800px; margin: 0 auto 3rem; text-align: left; }
+.footer-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.footer-col p, .footer-col a { font-family: 'Crimson Pro', serif; font-size: 0.92rem; line-height: 1.85; color: rgba(255,255,255,0.55); text-decoration: none; display: block; }
+.footer-col a:hover { color: var(--gold-light); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.8rem; font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; color: rgba(255,255,255,0.28); letter-spacing: 0.08em; }
+
+@media (max-width: 680px) {
+  nav { padding: 0.8rem 1.2rem; }
+  nav.scrolled { padding: 0.5rem 1.2rem; }
+  .nav-links { display: none; }
+  .event-card { grid-template-columns: 80px 1fr; }
+  .event-day { font-size: 2rem; }
+  .kontakt-grid { grid-template-columns: 1fr; }
+  .speise-nav { justify-content: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="nav-logo" href="#" onclick="showSection('home')">
+    <div class="nav-logo-text">
+      <span class="nav-logo-sig">Wagner</span>
+      <span class="nav-logo-sub">Café & Weinbar</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showSection('home')" id="nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showSection('events')" id="nav-events">Events</a></li>
+    <li><a href="#" onclick="showSection('news')" id="nav-news">News</a></li>
+    <li><a href="#" onclick="showSection('speisekarte')" id="nav-speisekarte">Speisekarte</a></li>
+    <li><a href="#" onclick="showSection('kontakt')" id="nav-kontakt">Kontakt</a></li>
+    <li><a href="https://www.facebook.com/pages/Cafe-Wagner/131134867075810" target="_blank" style="color:var(--gold-light)">Facebook</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="section-home" class="page-section active">
+  <section class="hero">
+    <div class="hero-slide active" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/1.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/3.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/4.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/5.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/6.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/7.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('http://www.wagner-cafe.de/assets/images/slides_head/8.jpg')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-ornament">✦ ✦ ✦</span>
+      <div class="hero-logo-text">
+        <span class="hero-logo-sig">Wagner</span>
+        <span class="hero-logo-small">Café & Weinbar · Leipzig</span>
+      </div>
+      <p class="hero-subtitle">Café & Weinbar · Leipzig</p>
+      <p class="hero-address">Richard-Wagner-Platz 1 · 04109 Leipzig</p>
+    </div>
+    <div class="scroll-hint" onclick="showSection('events')">
+      <span>Events & Termine</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="parallax-banner" id="parallaxBanner">
+    <div class="parallax-bg" id="parallaxBg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-content">
+      <p class="parallax-quote">„Mit die netten Gäste bleiben wir gerne <em>länger</em>."</p>
+      <div class="divider" style="margin-top:1.5rem;">
+        <div class="divider-line" style="background:linear-gradient(to right,transparent,rgba(184,150,46,0.45))"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line r" style="background:linear-gradient(to left,transparent,rgba(184,150,46,0.45))"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ EVENTS ══════════ -->
+<div id="section-events" class="page-section">
+  <div class="section-header">
+    <p class="section-tag">Veranstaltungen</p>
+    <h2 class="section-title">Events & Termine</h2>
+    <p class="section-desc">Feiern Sie mit uns die schönen Momente des Lebens – im Herzen von Leipzig.</p>
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line r"></div></div>
+  </div>
+  <div class="events-body">
+    <div class="events-list">
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">08</span><span class="event-month">März</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Internationaler Frauentag mit Überraschungen</h3><a href="http://www.wagner-cafe.de/events.php?id=0" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">01</span><span class="event-month">April</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Eiersuchen im Café Wagner</h3><a href="http://www.wagner-cafe.de/events.php?id=1" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">13</span><span class="event-month">Mai</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">10 Jahre Café Wagner</h3><p class="event-desc">Feiern Sie mit uns! Wir halten viele Überraschungen für Sie bereit.</p><a href="http://www.wagner-cafe.de/events.php?id=2" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">14</span><span class="event-month">Mai</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Muttertag im Café Wagner</h3><a href="http://www.wagner-cafe.de/events.php?id=3" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">18</span><span class="event-month">Mai</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Himmelfahrt / Vatertag</h3><p class="event-desc">Nach 10 Bier gibt es 1 Bier gratis.</p><a href="http://www.wagner-cafe.de/events.php?id=4" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">22</span><span class="event-month">Mai</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Richard Wagner Geburtstag</h3><a href="http://www.wagner-cafe.de/events.php?id=5" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">27</span><span class="event-month">Mai</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">WGT Spezial</h3><p class="event-desc">Mit Absinth-Verkostung.</p><a href="http://www.wagner-cafe.de/events.php?id=6" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">21</span><span class="event-month">Juni</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Summer Time</h3><p class="event-desc">Den Sommer im Café Wagner genießen.</p><a href="http://www.wagner-cafe.de/events.php?id=7" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">01</span><span class="event-month">Sept</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Sonnenuntergang auf der Terrasse</h3><p class="event-desc">Genießen Sie den schönsten Sonnenuntergang von ganz Leipzig – live von unserer Terrasse.</p><a href="http://www.wagner-cafe.de/events.php?id=8" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+      <article class="event-card">
+        <div class="event-date"><span class="event-day">03</span><span class="event-month">Dez</span><span class="event-year">2023</span></div>
+        <div class="event-body"><h3 class="event-title">Winterzauber</h3><p class="event-desc">Glühwein, Besinnlichkeit, Zeit genießen.</p><a href="http://www.wagner-cafe.de/events.php?id=9" class="event-mehr" target="_blank">mehr</a></div>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ NEWS ══════════ -->
+<div id="section-news" class="page-section">
+  <div class="section-header">
+    <p class="section-tag">Aktuelles</p>
+    <h2 class="section-title">News</h2>
+    <p class="section-desc">Neuigkeiten aus dem Café Wagner.</p>
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line r"></div></div>
+  </div>
+  <div class="news-body">
+    <div class="news-list">
+      <div class="news-card">
+        <p class="news-date">10. Januar 2017</p>
+        <h3 class="news-title">NEU: Business-Frühstück</h3>
+        <div class="news-text">
+          <p>Ab Februar – jeden Tag im Café Wagner. Beginn: ab 8 Uhr.</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <p class="news-date">17. Juni 2013</p>
+        <h3 class="news-title">Fulminante Eröffnung: das Café WAGNER in Leipzig empfängt Gäste aus Gesellschaft, Kultur, Politik und Wirtschaft</h3>
+        <div class="news-text">
+          <p>Elegante Sonnenschirme, festliche Deko und wunderbares Wetter: es passte einfach alles, was zu einer offiziellen Eröffnung gehört!</p>
+          <p>Denn die stand noch aus bei Celina Kutylo und ihrem Team, die die Pforten der kleinen, aber allerfeinsten Lokalität in Leipzigs bester Brühl-Lage erst vor wenigen Wochen geöffnet hat. Als Hommage an den weltbekannten Komponisten trägt das Kaffeehaus keinen geringeren Namen als WAGNER.</p>
+          <p>Dessen Geburtshaus stand nur wenige Meter vom heutigen Café WAGNER entfernt, auf dem Grundstück, wo gegenwärtig das Brühl-Einkaufszentrum einlädt. Am 22. Mai 1813 erblickte dort der große Sohn der Stadt Leipzig das Licht der Welt. Ein geschichtsträchtiger Standort also!</p>
+          <p>Zu dessen Eröffnung feierten mehrere hundert Gäste die Präsenz der stilvollen Location, die sich als Kaffeehaus & Weinbar versteht. Bei Musik, gutem Wein und lockeren Gesprächen ließ sich das Publikum entführen in die barocke Atmosphäre des WAGNER, die sich elegant mit modernem Purismus paart.</p>
+          <p>Das Konzept kommt an. Denn schon vor der offiziellen Eröffnung steuerten bereits viele Gäste täglich das WAGNER an – ließen sich nieder zum Verweilen, genossen bei einer Tasse Kaffee das bunte Treiben auf dem neu gestalteten Wagner-Platz oder kamen in der ungezwungenen Atmosphäre schnell mit anderen Gästen ins angenehme Gespräch.</p>
+          <p><em>Anja Kricheldorf – PR / Kommunikation</em></p>
+          <img src="http://www.wagner-cafe.de/preview/wordpress/wp-content/uploads/2013/07/Eroeffnung_Wagner-300x224.jpg" alt="Eröffnung Café Wagner">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SPEISEKARTE ══════════ -->
+<div id="section-speisekarte" class="page-section">
+  <div class="section-header">
+    <p class="section-tag">Küche & Keller</p>
+    <h2 class="section-title">Speisekarte</h2>
+    <p class="section-desc">Unsere Auswahl – von Frühstück bis Digestif.</p>
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line r"></div></div>
+  </div>
+  <div class="speise-body">
+    <div class="speise-nav">
+      <button class="speise-tab active" onclick="showSpeise('spezialitaeten',this)">Spezialitäten</button>
+      <button class="speise-tab" onclick="showSpeise('fruehstueck',this)">Frühstück</button>
+      <button class="speise-tab" onclick="showSpeise('sandwich',this)">Sandwich</button>
+      <button class="speise-tab" onclick="showSpeise('suppen',this)">Suppen</button>
+      <button class="speise-tab" onclick="showSpeise('salate',this)">Salate</button>
+      <button class="speise-tab" onclick="showSpeise('antipasta',this)">Anti Pasta</button>
+      <button class="speise-tab" onclick="showSpeise('sweets',this)">Sweets & Crepes</button>
+      <button class="speise-tab" onclick="showSpeise('kuchen',this)">Kuchen & Torten</button>
+      <button class="speise-tab" onclick="showSpeise('kaffee',this)">Heiße Getränke</button>
+      <button class="speise-tab" onclick="showSpeise('alkoholfrei',this)">Alkoholfrei</button>
+      <button class="speise-tab" onclick="showSpeise('bier',this)">Biere</button>
+      <button class="speise-tab" onclick="showSpeise('sekt',this)">Sekt & Champagner</button>
+      <button class="speise-tab" onclick="showSpeise('weine',this)">Weine</button>
+      <button class="speise-tab" onclick="showSpeise('spirits',this)">Spirits</button>
+      <button class="speise-tab" onclick="showSpeise('cocktails',this)">Cocktails</button>
+    </div>
+    <div class="speise-panels">
+
+      <div class="speise-panel active" id="sp-spezialitaeten">
+        <h3 class="speise-category-title">Unsere geschützten Spezialitäten</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Żurek</div><div class="speise-item-desc">Herzhafte polnische Mehlsuppe mit Würstchen und Kartoffeln</div></div><div class="speise-item-price">8,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Bigos</div><div class="speise-item-desc">Krauteintopf aus gedünstetem Sauerkraut mit verschiedenen Fleisch- und Wurstsorten</div></div><div class="speise-item-price">10,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Pierogi Ruskie</div><div class="speise-item-desc">Teigtaschen gefüllt mit Quark und Kartoffeln</div></div><div class="speise-item-price">12,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Pierogi mit Fleisch</div><div class="speise-item-desc">Teigtaschen gefüllt mit Fleisch</div></div><div class="speise-item-price">12,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Pierogi mit Pilzen und Sauerkraut</div><div class="speise-item-desc">Teigtaschen gefüllt mit Sauerkraut und Steinpilzen</div></div><div class="speise-item-price">12,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Pierogi mit Spinat</div><div class="speise-item-desc">Teigtaschen gefüllt mit Spinat</div></div><div class="speise-item-price">12,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Pierogi gemischt</div><div class="speise-item-desc">Teigtaschen Mix</div></div><div class="speise-item-price">12,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-fruehstueck">
+        <h3 class="speise-category-title">Frühstück</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Sweet</div><div class="speise-item-desc">Zwei Buttercroissant, Marmelade, Honig, Nutella, Butter und verschiedene Brotsorten</div></div><div class="speise-item-price">10,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Ideal</div><div class="speise-item-desc">Parmaschinken, Coppa, Salami, Emmentaler, Ei, Marmelade, Butter und verschiedene Brotsorten</div></div><div class="speise-item-price">14,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Formaggio</div><div class="speise-item-desc">Verschiedene Käsesorten, Buttermilch, Butter und verschiedene Brotsorten</div></div><div class="speise-item-price">14,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Toskana</div><div class="speise-item-desc">Parmaschinken, Coppa, Caprese, Antipasti und verschiedene Brotsorten</div></div><div class="speise-item-price">14,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Wellness</div><div class="speise-item-desc">Arabischer Joghurt mit Honig, frische Datteln, Feigen und Walnüssen, dazu Kombucha nach Wahl</div></div><div class="speise-item-price">14,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-sandwich">
+        <h3 class="speise-category-title">Sandwich</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Wagner</div><div class="speise-item-desc">Mit Parmaschinken, Parmesan, Rucola und Tomaten</div></div><div class="speise-item-price">8,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Club</div><div class="speise-item-desc">Toast mit gebratenen Hähnchenstreifen, Ei, Tomaten, Gurken, Salat, Chili-Ingwer-Sauce</div></div><div class="speise-item-price">9,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Toast Tomate & Mozzarella</div><div class="speise-item-desc">Mit Tomate und Mozzarella überbacken und Balsamico Glace</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Toast Käse-Schinken</div><div class="speise-item-desc">Mit Käse-Schinken überbacken und Spiegelei</div></div><div class="speise-item-price">7,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-suppen">
+        <h3 class="speise-category-title">Suppen</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Tomaten-Gin-Suppe</div><div class="speise-item-desc">Mit getoastetem Ciabatta und Parmesan</div></div><div class="speise-item-price">8,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Zurek</div><div class="speise-item-desc">Sauerteigsuppe mit Knackwurst, Kartoffeln und Majoran</div></div><div class="speise-item-price">8,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-salate">
+        <h3 class="speise-category-title">Salate</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Gemischter Salat</div><div class="speise-item-desc">Mit Hähnchenstreifen und Hausdressing</div></div><div class="speise-item-price">14,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Caprese</div><div class="speise-item-desc">Mit Tomaten, Mozzarella und Olivenöl</div></div><div class="speise-item-price">9,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Rucola</div><div class="speise-item-desc">Mit Ziegenkäse, Walnüssen und Hausdressing</div></div><div class="speise-item-price">14,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-antipasta">
+        <h3 class="speise-category-title">Anti Pasta</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Anti Pasti Teller</div><div class="speise-item-desc">à la Wagner</div></div><div class="speise-item-price">10,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Kleine Käseplatte</div><div class="speise-item-desc">Vorwiegend französische Auswahl</div></div><div class="speise-item-price">10,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Große Käseplatte</div><div class="speise-item-desc">Internationale Auswahl</div></div><div class="speise-item-price">14,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-sweets">
+        <h3 class="speise-category-title">Sweets und Crepes</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Buttercroissant</div></div><div class="speise-item-price">3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Crepe mit Schokoladensauce oder Ahornsirup</div></div><div class="speise-item-price">5,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Crepe mit Apfelmus</div></div><div class="speise-item-price">6,70 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Crepe mit heißen Himbeeren</div></div><div class="speise-item-price">6,70 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Crepe mit frischen Erdbeeren und Vanilleeis</div></div><div class="speise-item-price">7,40 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Crepe mit Schinken und Käse</div></div><div class="speise-item-price">7,40 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Crepe mit Avocadocreme und Tomaten</div></div><div class="speise-item-price">6,70 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Crepe mit Kräuterfrischkäse</div></div><div class="speise-item-price">6,70 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-kuchen">
+        <h3 class="speise-category-title">Kuchen und Torten</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Apfelstrudel mit Vanilleeis und Sahne</div></div><div class="speise-item-price">5,60 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Quarkstrudel mit Vanilleeis und Sahne</div></div><div class="speise-item-price">5,60 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Kuchen nach Tagesangebot</div></div><div class="speise-item-price">3,50 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Torte nach Tagesangebot</div></div><div class="speise-item-price">3,50 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-kaffee">
+        <h3 class="speise-category-title">Heiße Getränke</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Haselnußkaffee – Wagners Hausmarke</div><div class="speise-item-desc">Tasse / Pott</div></div><div class="speise-item-price">3,90 / 4,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Kaffee</div><div class="speise-item-desc">Tasse / Pott</div></div><div class="speise-item-price">2,80 / 3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Cappuccino</div></div><div class="speise-item-price">3,50 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Milchkaffee</div></div><div class="speise-item-price">3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Latte macchiato</div></div><div class="speise-item-price">3,30 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Espresso</div></div><div class="speise-item-price">2,80 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Espresso macchiato</div></div><div class="speise-item-price">2,80 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Espresso doppio</div></div><div class="speise-item-price">3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Espresso corretto (mit Grappa)</div></div><div class="speise-item-price">5,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Irish Coffee</div></div><div class="speise-item-price">7,20 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Honigmilch</div></div><div class="speise-item-price">3,50 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Heiße Schokolade</div></div><div class="speise-item-price">3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Heiße Schokolade mit Sahne</div></div><div class="speise-item-price">4,20 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Le Chocolat noir – 82% Kakao</div></div><div class="speise-item-price">4,50 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Premium Tee</div><div class="speise-item-desc">Tasse / Kännchen</div></div><div class="speise-item-price">3,20 / 4,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-alkoholfrei">
+        <h3 class="speise-category-title">Alkoholfreie Getränke</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">San Pellegrino</div><div class="speise-item-desc">0,25 l / 0,75 l</div></div><div class="speise-item-price">2,90 / 5,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Coca Cola / Light</div><div class="speise-item-desc">0,2 l</div></div><div class="speise-item-price">2,50 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Fanta / Sprite</div><div class="speise-item-desc">0,2 l</div></div><div class="speise-item-price">2,50 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Schweppes Bitter Lemon / Ginger Ale / Tonic</div><div class="speise-item-desc">0,2 l</div></div><div class="speise-item-price">2,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Apfelschorle</div><div class="speise-item-desc">0,2 l / 0,4 l</div></div><div class="speise-item-price">2,90 / 3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Red Bull (versch. Sorten)</div><div class="speise-item-desc">0,25 l</div></div><div class="speise-item-price">3,60 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Orange / Grapefruit / Apfel – frisch gepresst</div><div class="speise-item-desc">0,2 l / 0,4 l</div></div><div class="speise-item-price">3,80 / 5,80 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Carpe Diem Kombucha (Classic / Cranberry / Quitte)</div><div class="speise-item-desc">0,25 l</div></div><div class="speise-item-price">4,20 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-bier">
+        <h3 class="speise-category-title">Biere</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Krombacher Pils vom Fass</div><div class="speise-item-desc">0,3 l / 0,5 l</div></div><div class="speise-item-price">2,50 / 3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Krombacher Radler / Diesel / alkoholfrei</div><div class="speise-item-desc">0,3 l / 0,5 l</div></div><div class="speise-item-price">2,50 / 3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Krombacher Weizen</div><div class="speise-item-desc">0,5 l</div></div><div class="speise-item-price">3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Köstritzer Schwarzbier</div><div class="speise-item-desc">0,5 l</div></div><div class="speise-item-price">3,20 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Döllnitzer Gose</div><div class="speise-item-desc">0,5 l – pur, Himbeere- oder Waldmeistersirup</div></div><div class="speise-item-price">3,80 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Krombacher Fassbrause Zitrone / Holunder</div><div class="speise-item-desc">0,3 l</div></div><div class="speise-item-price">2,50 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-sekt">
+        <h3 class="speise-category-title">Sekt – Champagner – Prosecco</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Prosecco di Valdobiadene DOC Contarini</div><div class="speise-item-desc">0,10 l / 0,75 l</div></div><div class="speise-item-price">3,90 / 26,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Alfred Gratien Champagner</div><div class="speise-item-desc">0,10 l / 0,75 l</div></div><div class="speise-item-price">12,90 / 69,00 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Alfred Gratien Champagner Rosé</div><div class="speise-item-desc">0,10 l / 0,75 l</div></div><div class="speise-item-price">13,90 / 76,00 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Cuvée Flamme Brut Rosé</div><div class="speise-item-desc">0,10 l / 0,75 l</div></div><div class="speise-item-price">6,90 / 42,00 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Aperol Spritz</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Campari Amalfi</div></div><div class="speise-item-price">7,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-weine">
+        <h3 class="speise-category-title">Weissweine</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Burgfräulein Weißburgunder QbA</div></div><div class="speise-item-price">3,90 / 15,99 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Riesling Schneider</div></div><div class="speise-item-price">5,90 / 23,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Freyburger Müller-Thurgau QbA</div></div><div class="speise-item-price">4,90 / 19,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Chardonnay</div></div><div class="speise-item-price">4,90 / 19,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Pouilly-fumé Mademoiselle de T AOC (Frankreich)</div></div><div class="speise-item-price">9,40 / 36,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Soraighe Lugana D.O.C. (Italien)</div></div><div class="speise-item-price">5,90 / 23,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Atlàntik Albariño (Spanien)</div></div><div class="speise-item-price">5,90 / 23,60 €</div></div>
+        <h3 class="speise-category-title" style="margin-top:2rem;">Rotweine</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Dornfelder QbA – Weingut Paul Rainer Gillot</div></div><div class="speise-item-price">4,90 / 19,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Pinot Noir Lifestyle-Kollektion QbA</div></div><div class="speise-item-price">5,90 / 23,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Chateau Maurel AOC (Frankreich)</div></div><div class="speise-item-price">3,90 / 15,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Caelum Chianti Colli Senesi D.O.C.G. (Italien)</div></div><div class="speise-item-price">4,90 / 19,90 €</div></div>
+        <h3 class="speise-category-title" style="margin-top:2rem;">Roséweine</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Essenziell Rosé QbA</div></div><div class="speise-item-price">5,40 / 21,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Rosé d'Anjou AOC</div></div><div class="speise-item-price">3,90 / 15,90 €</div></div>
+        <p class="speise-note">Alle Weine: 0,20 l / Flasche 0,75 l</p>
+      </div>
+
+      <div class="speise-panel" id="sp-spirits">
+        <h3 class="speise-category-title">Likör</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Baileys / Cointreau / Kahlúa / Amaretto di Saronno</div><div class="speise-item-desc">2,0 cl</div></div><div class="speise-item-price">2,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Grand Marnier Gordon Rouge</div><div class="speise-item-desc">2,0 cl</div></div><div class="speise-item-price">3,50 €</div></div>
+        <h3 class="speise-category-title" style="margin-top:2rem;">Gin</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Bombay Sapphire</div></div><div class="speise-item-price">3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Gordon's Dry Gin</div></div><div class="speise-item-price">2,90 €</div></div>
+        <h3 class="speise-category-title" style="margin-top:2rem;">Whisky</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Ballantine's / Johnnie Walker Red Label</div></div><div class="speise-item-price">2,90 – 3,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Chivas Regal 12 Years / Glenfiddich 12 Years</div></div><div class="speise-item-price">4,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Macallan 10 Years / Glenmore Original</div></div><div class="speise-item-price">6,00 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Jack Daniel's / Jim Beam</div></div><div class="speise-item-price">3,90 €</div></div>
+        <h3 class="speise-category-title" style="margin-top:2rem;">Digestif & Grappa</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Rémy Martin VSOP / Hennessy Fine de Cognac</div></div><div class="speise-item-price">5,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Grappa di Vino Trentina Koralis</div></div><div class="speise-item-price">5,90 €</div></div>
+        <h3 class="speise-category-title" style="margin-top:2rem;">Rum & Wodka</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Havana Club 3 / 7 Years</div></div><div class="speise-item-price">2,90 / 5,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Absolut (div. Sorten)</div></div><div class="speise-item-price">2,90 – 4,90 €</div></div>
+      </div>
+
+      <div class="speise-panel" id="sp-cocktails">
+        <h3 class="speise-category-title">Cocktails & Drinks</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Cuba Libre</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Gin Tonic</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Caipirinha</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Mojito</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Piña Colada</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Margarita / Strawberry Margarita</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Cosmopolitan</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Kir Royal</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">White Russian</div></div><div class="speise-item-price">7,90 €</div></div>
+        <h3 class="speise-category-title" style="margin-top:2rem;">Non Alcoholic Drinks</h3>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Virgin Colada</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Exotic Love</div></div><div class="speise-item-price">7,90 €</div></div>
+        <div class="speise-item"><div class="speise-item-left"><div class="speise-item-name">Safe Sex on the Beach</div></div><div class="speise-item-price">7,90 €</div></div>
+        <p class="speise-note">Die Liste der Zusatzstoffe finden Sie in der gedruckten Speisekarte des Café Wagner. Änderungen vorbehalten. Es gelten die aktuellen Angebote und Preise vor Ort.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ KONTAKT ══════════ -->
+<div id="section-kontakt" class="page-section">
+  <div class="section-header">
+    <p class="section-tag">Besuchen Sie uns</p>
+    <h2 class="section-title">Kontakt & Anfahrt</h2>
+    <p class="section-desc">Wir freuen uns auf Ihren Besuch im Herzen Leipzigs.</p>
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line r"></div></div>
+  </div>
+  <div class="kontakt-body">
+    <div class="kontakt-grid">
+      <div class="kontakt-info">
+        <h3>Café Wagner</h3>
+        <div class="kontakt-row"><span class="kontakt-label">Adresse</span><span class="kontakt-val">Richard-Wagner-Platz 1<br>04109 Leipzig</span></div>
+        <div class="kontakt-row"><span class="kontakt-label">Inhaberin</span><span class="kontakt-val">Celina Kutylo</span></div>
+        <div class="kontakt-row"><span class="kontakt-label">Telefon</span><span class="kontakt-val"><a href="tel:+493419999498">0341 99 99 49 48</a></span></div>
+        <div class="kontakt-row"><span class="kontakt-label">E-Mail</span><span class="kontakt-val"><a href="mailto:info@wagner-cafe.de">info@wagner-cafe.de</a></span></div>
+        <div class="kontakt-row"><span class="kontakt-label">Öffnungszeiten</span><span class="kontakt-val">Mo – Sa: 09:00 bis open end<br>So: 11:00 – 18:00 Uhr</span></div>
+        <div class="kontakt-row"><span class="kontakt-label">Facebook</span><span class="kontakt-val"><a href="https://www.facebook.com/pages/Cafe-Wagner/131134867075810" target="_blank">Café Wagner auf Facebook</a></span></div>
+        <div class="kontakt-row"><span class="kontakt-label">Impressum</span><span class="kontakt-val"><a href="http://www.wagner-cafe.de/impressum.php" target="_blank">Impressum ansehen</a></span></div>
+      </div>
+      <div class="kontakt-map">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=12.3700,51.3423,12.3740,51.3443&layer=mapnik&marker=51.3431,12.3724"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PARALLAX (shared, shown on home) ══════════ -->
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo-sig">Wagner</span>
+  <span class="footer-logo-sub">Café & Weinbar</span>
+  <p class="footer-tagline">Café & Weinbar · Leipzig · Seit 2013</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Adresse</h4>
+      <p>Richard-Wagner-Platz 1</p>
+      <p>04109 Leipzig</p>
+      <p>Inhaberin: Celina Kutylo</p>
+    </div>
+    <div class="footer-col">
+      <h4>Öffnungszeiten</h4>
+      <p>Mo – Sa: 09:00 bis open end</p>
+      <p>So: 11:00 – 18:00 Uhr</p>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <p>Tel.: 0341 99 99 49 48</p>
+      <a href="mailto:info@wagner-cafe.de">info@wagner-cafe.de</a>
+      <a href="https://www.facebook.com/pages/Cafe-Wagner/131134867075810" target="_blank">Facebook</a>
+      <a href="http://www.wagner-cafe.de/impressum.php" target="_blank">Impressum</a>
+    </div>
+  </div>
+  <div class="footer-bottom">Copyright © 2013 Café Wagner Leipzig · Alle Rechte vorbehalten</div>
+</footer>
+
+<script>
+// ── HERO SLIDER ──
+const slides = document.querySelectorAll('.hero-slide');
+let cur = 0;
+setInterval(() => {
+  slides[cur].classList.remove('active');
+  cur = (cur + 1) % slides.length;
+  slides[cur].classList.add('active');
+}, 4000);
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+// ── SECTION SWITCHING ──
+function showSection(id) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  const navLink = document.getElementById('nav-' + id);
+  if (navLink) navLink.classList.add('active');
+  // Toggle nav style: home = transparent over hero, others = light background
+  if (id === 'home') {
+    nav.classList.remove('on-page');
+  } else {
+    nav.classList.add('on-page');
+    nav.classList.remove('scrolled');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(triggerReveal, 200);
+  return false;
+}
+
+// ── SCROLL REVEAL ──
+function triggerReveal() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.event-card:not(.visible), .news-card:not(.visible), .speise-item:not(.visible)').forEach(el => observer.observe(el));
+}
+triggerReveal();
+
+// ── SPEISEKARTE TABS ──
+function showSpeise(id, btn) {
+  document.querySelectorAll('.speise-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.speise-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sp-' + id).classList.add('active');
+  btn.classList.add('active');
+  setTimeout(() => {
+    document.querySelectorAll('#sp-' + id + ' .speise-item').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 40);
+    });
+  }, 50);
+}
+// auto-reveal first panel
+setTimeout(() => {
+  document.querySelectorAll('#sp-spezialitaeten .speise-item').forEach((el,i) => {
+    setTimeout(() => el.classList.add('visible'), i * 40);
+  });
+}, 400);
+
+// ── PARALLAX ──
+const pBg = document.getElementById('parallaxBg');
+const pBanner = document.getElementById('parallaxBanner');
+if (pBg && pBanner) {
+  window.addEventListener('scroll', () => {
+    const top = pBanner.getBoundingClientRect().top;
+    pBg.style.transform = 'translateY(' + (top * 0.28) + 'px)';
+  });
+}
+</script>
+</body>
+</html>
